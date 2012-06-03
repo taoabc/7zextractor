@@ -1,4 +1,4 @@
-// debug.cpp : Defines the entry point for the console application.
+// demo.cpp : Defines the entry point for the console application.
 //
 
 #include "stdafx.h"
