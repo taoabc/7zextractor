@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "7zextractor", "7zextractor\7zextractor.vcxproj", "{8930FC04-7EF9-4541-B7CF-087BFC5236A4}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "demo", "demo\demo.vcxproj", "{13AD0500-D3CE-44C8-970B-9EF55E8AC42E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -13,6 +15,10 @@ Global
 		{8930FC04-7EF9-4541-B7CF-087BFC5236A4}.Debug|Win32.Build.0 = Debug|Win32
 		{8930FC04-7EF9-4541-B7CF-087BFC5236A4}.Release|Win32.ActiveCfg = Release|Win32
 		{8930FC04-7EF9-4541-B7CF-087BFC5236A4}.Release|Win32.Build.0 = Release|Win32
+		{13AD0500-D3CE-44C8-970B-9EF55E8AC42E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{13AD0500-D3CE-44C8-970B-9EF55E8AC42E}.Debug|Win32.Build.0 = Debug|Win32
+		{13AD0500-D3CE-44C8-970B-9EF55E8AC42E}.Release|Win32.ActiveCfg = Release|Win32
+		{13AD0500-D3CE-44C8-970B-9EF55E8AC42E}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
