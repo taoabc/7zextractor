@@ -84,6 +84,7 @@
     <ClInclude Include="7zFileStream.h" />
     <ClInclude Include="ArchiveExtractCallBack.h" />
     <ClInclude Include="ArchiveOpenCallBack.h" />
+    <ClInclude Include="common.h" />
     <ClInclude Include="Extractor.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />

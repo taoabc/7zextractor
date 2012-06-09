@@ -15,15 +15,12 @@ static HRESULT IsArchiveItemProp(IInArchive* archive, UInt32 index, PROPID propI
   return S_OK;
 }
 
-static HRESULT IsArchiveItemFolder(IInArchive* archive, UInt32 index, bool* result)
-{
+static HRESULT IsArchiveItemFolder(IInArchive* archive, UInt32 index, bool* result) {
   return IsArchiveItemProp(archive, index, kpidIsDir, result);
 }
 
-static UInt64 ConvertPropVariantToUInt64(const PROPVARIANT &prop)
-{
-  switch (prop.vt)
-  {
+static UInt64 ConvertPropVariantToUInt64(const PROPVARIANT &prop) {
+  switch (prop.vt) {
   case VT_UI1: return prop.bVal;
   case VT_UI2: return prop.uiVal;
   case VT_UI4: return prop.ulVal;
@@ -41,14 +38,24 @@ void ArchiveExtractCallBack::Init(IInArchive* archive_handler, const std::wstrin
 const wchar_t* ArchiveExtractCallBack::kEmptyFileAlias_ = L"[Content]";
 
 ArchiveExtractCallBack::ArchiveExtractCallBack(void) :
-    password_is_defined_(false) {
+    password_is_defined_(false),
+    error_code_(extractresult::extract::kOK),
+    SetTotalCallback_(NULL),
+    SetCompletedCallback_(NULL),
+    SetOperationResultCallback_(NULL) {
 }
 
 STDMETHODIMP ArchiveExtractCallBack::SetTotal(UInt64 size) {
+  if (SetTotalCallback_ != NULL) {
+    SetTotalCallback_(size);
+  }
   return S_OK;
 }
 
 STDMETHODIMP ArchiveExtractCallBack::SetCompleted(const UInt64* complete_value) {
+  if (SetCompletedCallback_ != NULL) {
+    SetCompletedCallback_(*complete_value);
+  }
   return S_OK;
 }
 
@@ -138,12 +145,14 @@ STDMETHODIMP ArchiveExtractCallBack::GetStream(UInt32 index,
   } else {
     if (ult::IsPathFileExist(full_processed_path)) {
       if (!ult::DeleteFileAlways(full_processed_path)) {
+        error_code_ = extractresult::extract::kDeleteExistFileError;
         return E_ABORT;
       }
     }
     out_filestream_spec_ = new OutFileStream;
     CMyComPtr<ISequentialOutStream> out_stream_loc(out_filestream_spec_);
     if (!out_filestream_spec_->Create(full_processed_path, true)) {
+      error_code_ = extractresult::extract::kCreateFileError;
       return E_ABORT;
     }
     out_filestream_ = out_stream_loc;
@@ -163,9 +172,12 @@ STDMETHODIMP ArchiveExtractCallBack::PrepareOperation(Int32 ask_extract_mode) {
 }
 
 STDMETHODIMP ArchiveExtractCallBack::SetOperationResult(Int32 operation_result) {
+  if (SetOperationResultCallback_ != NULL) {
+    SetOperationResultCallback_(operation_result);
+  }
   if (out_filestream_ != NULL) {
     if (processed_fileinfo_.mtime_defined) {
-      //set modified time back, otherwise there were be currenttime
+      //set modified time back, otherwise there were be current time
       out_filestream_spec_->SetMTime(&processed_fileinfo_.mtime);
     }
     RINOK(out_filestream_spec_->Close());
@@ -179,7 +191,20 @@ STDMETHODIMP ArchiveExtractCallBack::SetOperationResult(Int32 operation_result) 
 
 STDMETHODIMP ArchiveExtractCallBack::CryptoGetTextPassword(BSTR* password) {
   if (!password_is_defined_) {
+    error_code_ = extractresult::extract::kPasswordError;
     return E_ABORT;
   }
   return StringToBstr(password_.c_str(), password);
+}
+
+int ArchiveExtractCallBack::GetErrorCode(void) const {
+  return error_code_;
+}
+
+void ArchiveExtractCallBack::SetCallback(SetTotalProc SetTotalFn,
+                                         SetCompletedProc SetCompletedFn,
+                                         SetOperationResultProc SetOperationResultFn) {
+  SetTotalCallback_ = SetTotalFn;
+  SetCompletedCallback_ = SetCompletedFn;
+  SetOperationResultCallback_ = SetOperationResultFn;
 }

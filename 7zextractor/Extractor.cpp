@@ -60,11 +60,15 @@ int Extractor::Open(const std::wstring& filename) {
 
 int Extractor::Extract(const std::wstring& path,
                        SetTotalProc SetTotal,
-                       SetCompleteProc SetComplete,
+                       SetCompletedProc SetCompleted,
                        SetOperationResultProc SetOperationResult) {
     extract_callback_spec_->Init(archive_, path);
+    extract_callback_spec_->SetCallback(SetTotal, SetCompleted, SetOperationResult);
     HRESULT result = archive_->Extract(NULL, (UInt32)(Int32)-1, false, extract_callback_);
     if (result != S_OK) {
+      if (extract_callback_spec_->GetErrorCode() != extractresult::extract::kOK) {
+        return extract_callback_spec_->GetErrorCode();
+      }
       return extractresult::extract::kUnknownError;
     }
     return extractresult::extract::kOK;

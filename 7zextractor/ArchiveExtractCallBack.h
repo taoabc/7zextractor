@@ -1,5 +1,6 @@
 #pragma once
 
+#include "common.h"
 #include "7zFileStream.h"
 
 #include "7z/cpp/common/MyInitGuid.h"
@@ -17,6 +18,11 @@ class ArchiveExtractCallBack :
 public:
 
   void Init(IInArchive* archive_handler, const std::wstring& directory_paty);
+  
+  int GetErrorCode(void) const;
+  void SetCallback(SetTotalProc SetTotalFn,
+                   SetCompletedProc SetCompletedFn,
+                   SetOperationResultProc SetOperationResultFn);
 
   MY_UNKNOWN_IMP1(ICryptoGetTextPassword)
   
@@ -55,7 +61,12 @@ private:
   std::wstring directory_path_; //output directory
   std::wstring disk_file_path_; //full path to file on disk
 
+  int error_code_;
   bool extract_mode_;
+
+  SetTotalProc SetTotalCallback_;
+  SetCompletedProc SetCompletedCallback_;
+  SetOperationResultProc SetOperationResultCallback_;
 
   static const wchar_t* kEmptyFileAlias_;
 

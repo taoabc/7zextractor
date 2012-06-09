@@ -2,67 +2,24 @@
 //
 
 #include "stdafx.h"
+#include <iostream>
 #include "ult\library.h"
 #include "ult\file-dir.h"
 
-typedef void (__stdcall *SetTotalProc)(unsigned __int64 totalsize);
-typedef void (__stdcall *SetCompleteProc)(unsigned __int64 completesize);
-typedef void (__stdcall *SetOperationResultProc)(int operation_result);
-typedef int  (__stdcall *InitProc)(void);
-typedef int  (__stdcall *OpenProc)(const wchar_t* filename);
-typedef int  (__stdcall *ExtractProc)(const wchar_t* path,
-                                      SetTotalProc SetTotal,
-                                      SetCompleteProc SetComplete,
-                                      SetOperationResultProc SetOperationResult);
+#include "../7zextractor/common.h"
+#include "ult\number.h"
 
-namespace extractresult {
-
-namespace pperation {
-  enum {
-    kOK = 0,
-    kUnSupportedMethod,
-    kDataError,
-    kCRCError
-  };
-}
-
-namespace init {
-  enum {
-    kOK = 0,
-    kLoadLibraryError,
-    kLibraryInsideError,
-    kGet7zObjectError
-  };
-}
-
-namespace open {
-  enum {
-    kOK = 0,
-    kOpenFileError,
-    kOpenArchiveError,
-    kPasswordError
-  };
-}
-
-namespace extract {
-  enum {
-    kOK = 0,
-    kDeleteExistFileError,
-    kCreateFileError,
-    kPasswordError,
-    kUnknownError
-  };
-}
-}
+unsigned __int64 g_totalsize;
 
 void __stdcall SetTotal(unsigned __int64 totalsize) {
-
+  g_totalsize = totalsize;
 }
-void __stdcall SetComplete(unsigned __int64 completesize) {
-
+void __stdcall SetCompleted(unsigned __int64 completesize) {
+  int progress = ult::UIntMultDiv(completesize, 100, g_totalsize);
+  printf("%d%%\n", progress);
 }
 void __stdcall SetOperationResult(int operation_result) {
-
+  printf("%d\n", operation_result);
 }
 
 int _tmain(int argc, _TCHAR* argv[])
@@ -84,7 +41,8 @@ int _tmain(int argc, _TCHAR* argv[])
   }
   if (Open(L"E:\\temp\\test.7z") != extractresult::open::kOK) {
   }
-  if (Extract(L"E:\\temp\\a\\", SetTotal, SetComplete, SetOperationResult) != extractresult::extract::kOK) {
+  if (Extract(L"E:\\temp\\a\\", SetTotal, SetCompleted, SetOperationResult) != extractresult::extract::kOK) {
   }
+  system("pause");
 	return 0;
 }

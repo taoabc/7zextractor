@@ -17,7 +17,7 @@ int __stdcall Open(const wchar_t* filename) {
 
 int __stdcall Extract(const wchar_t* path,
                       SetTotalProc SetTotal,
-                      SetCompleteProc SetComplete,
+                      SetCompletedProc SetComplete,
                       SetOperationResultProc SetOperationResult) {
   return g_extractor_spec.Extract(path, SetTotal, SetComplete, SetOperationResult);
 }
