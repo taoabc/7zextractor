@@ -37,7 +37,7 @@ int _tmain(int argc, _TCHAR* argv[])
   OpenProc Open = (OpenProc)lib.GetProc("Open");
   ExtractProc Extract = (ExtractProc)lib.GetProc("Extract");
 
-  if (Init() != extractresult::init::kOK) {
+  if (Init(NULL) != extractresult::init::kOK) {
   }
   if (Open(L"E:\\temp\\test.7z") != extractresult::open::kOK) {
   }

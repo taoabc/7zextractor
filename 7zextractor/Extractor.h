@@ -18,7 +18,7 @@ public:
   Extractor(void);
   ~Extractor(void);
 
-  int Init(void);
+  int Init(const wchar_t* xadll);
 
   int Open(const std::wstring& filename);
 
@@ -40,4 +40,5 @@ private:
   CMyComPtr<IArchiveExtractCallback> extract_callback_;
 
   static const wchar_t* kDllName_;
+  static const wchar_t* kSelfDllName_;
 };

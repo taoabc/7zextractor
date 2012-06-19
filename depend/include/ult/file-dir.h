@@ -117,6 +117,13 @@ inline void GetSelfModulePath(std::wstring* path) {
   GetUpperPath(buf, path);
 }
 
+inline void GetModulePathByName(const std::wstring& module_name,
+                                std::wstring* path) {
+  wchar_t buf[MAX_PATH];
+  ::GetModuleFileName(GetModuleHandle(module_name.c_str()), buf, MAX_PATH);
+  GetUpperPath(buf, path);
+}
+
 inline bool MakeSureFolderExist(const std::wstring& folder_path) {
   int index = 0;
   bool ret = false;

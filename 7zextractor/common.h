@@ -11,7 +11,7 @@ typedef void   (__stdcall *SetOperationResultProc)
 
 // library function
 typedef int    (__stdcall *InitProc)
-                          (void);
+                          (const wchar_t* xadll);
 typedef int    (__stdcall *OpenProc)
                           (const wchar_t* filename);
 typedef int    (__stdcall *ExtractProc)

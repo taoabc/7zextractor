@@ -7,8 +7,8 @@
 
 Extractor g_extractor_spec;
 
-int __stdcall Init(void) {
-  return g_extractor_spec.Init();
+int __stdcall Init(const wchar_t* xadll) {
+  return g_extractor_spec.Init(xadll);
 }
 
 int __stdcall Open(const wchar_t* filename) {

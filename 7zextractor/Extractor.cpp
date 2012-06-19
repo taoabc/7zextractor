@@ -7,7 +7,8 @@
 DEFINE_GUID(CLSID_CFormat7z,
     0x23170F69, 0x40C1, 0x278A, 0x10, 0x00, 0x00, 0x01, 0x10, 0x07, 0x00, 0x00);
 
-const wchar_t* Extractor::kDllName_ = L"7zxa.dll";
+const wchar_t* Extractor::kDllName_     = L"7zxa.dll";
+const wchar_t* Extractor::kSelfDllName_ = L"7zextractor.dll";
 
 Extractor::Extractor(void) {
 }
@@ -16,10 +17,20 @@ Extractor::Extractor(void) {
 Extractor::~Extractor(void) {
 }
 
-int Extractor::Init(void) {
-  std::wstring self_path;
-  ult::GetSelfModulePath(&self_path);
-  std::wstring dll_path = self_path + kDllName_;
+int Extractor::Init(const wchar_t* xadll) {
+  std::wstring dll_path;
+  if (xadll == NULL) {
+    std::wstring self_path;
+    ult::GetSelfModulePath(&self_path);
+    dll_path = self_path + kDllName_;
+    if (!ult::IsPathFileExist(dll_path)) {
+      std::wstring dll_self_path;
+      ult::GetModulePathByName(kSelfDllName_, &dll_self_path);
+      dll_path = dll_self_path + kDllName_;
+    }
+  } else {
+    dll_path.assign(xadll);
+  }
   lib_.Load(dll_path.c_str());
   if (!lib_.IsLoaded()) {
     return extractresult::init::kLoadLibraryError;
