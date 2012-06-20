@@ -19,7 +19,7 @@ Extractor::~Extractor(void) {
 
 int Extractor::Init(const wchar_t* xadll) {
   std::wstring dll_path;
-  if (xadll == NULL) {
+  if (xadll == NULL || wcslen(xadll) == 0) {
     std::wstring self_path;
     ult::GetSelfModulePath(&self_path);
     dll_path = self_path + kDllName_;
