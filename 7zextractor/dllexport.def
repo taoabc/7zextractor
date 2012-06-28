@@ -1,4 +1,5 @@
 EXPORTS
 Init=?Init@@YGHPB_W@Z
 Open=?Open@@YGHPB_W@Z
+OpenFromMemory=?OpenFromMemory@@YGHPBX_K@Z
 Extract=?Extract@@YGHPB_WP6GX_K@Z2P6GXH@Z@Z

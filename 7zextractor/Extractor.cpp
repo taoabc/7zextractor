@@ -69,6 +69,17 @@ int Extractor::Open(const std::wstring& filename) {
   return extractresult::open::kOK;
 }
 
+int Extractor::OpenFromMemory(const void* data, unsigned __int64 len) {
+  if (!file_spec_->OpenFromMemory(data, len)) {
+    return extractresult::open::kOpenFileError;
+  }
+
+  if (archive_->Open(file_, 0, open_callback_) != S_OK) {
+    return extractresult::open::kOpenArchiveError;
+  }
+  return extractresult::open::kOK;
+}
+
 int Extractor::Extract(const std::wstring& path,
                        SetTotalProc SetTotal,
                        SetCompletedProc SetCompleted,

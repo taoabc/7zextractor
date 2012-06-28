@@ -15,7 +15,10 @@ class InFileStream :
 
 public:
 
+  InFileStream(void);
+
   bool Open(const std::wstring& filename);
+  bool OpenFromMemory(const void* data, unsigned __int64 len);
 
   MY_UNKNOWN_IMP2(IInStream, IStreamGetSize)
 
@@ -27,8 +30,17 @@ public:
   STDMETHOD(GetSize)(UInt64 *size);
 
 private:
+  
+  enum StreamType{
+    kFile = 0,
+    kMemory
+  };
 
   ult::File file_;
+  StreamType stream_type_;
+  const void* data_;
+  UInt64 data_cursor_;
+  UInt64 data_len_;
 
 };
 

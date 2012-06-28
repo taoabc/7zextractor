@@ -21,3 +21,7 @@ int __stdcall Extract(const wchar_t* path,
                       SetOperationResultProc SetOperationResult) {
   return g_extractor_spec.Extract(path, SetTotal, SetComplete, SetOperationResult);
 }
+
+int __stdcall OpenFromMemory(const void* data, unsigned __int64 len) {
+  return g_extractor_spec.OpenFromMemory(data, len);
+}

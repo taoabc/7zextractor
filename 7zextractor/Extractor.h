@@ -22,6 +22,8 @@ public:
 
   int Open(const std::wstring& filename);
 
+  int OpenFromMemory(const void* data, unsigned __int64 len);
+
   int Extract(const std::wstring& path,
               SetTotalProc SetTotal,
               SetCompletedProc SetComplete,

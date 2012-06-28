@@ -14,6 +14,8 @@ typedef int    (__stdcall *InitProc)
                           (const wchar_t* xadll);
 typedef int    (__stdcall *OpenProc)
                           (const wchar_t* filename);
+typedef int    (__stdcall *OpenFromMemoryProc)
+                          (const void* data, unsigned __int64 len);
 typedef int    (__stdcall *ExtractProc)
                           (const wchar_t* path,
                            SetTotalProc SetTotal,
