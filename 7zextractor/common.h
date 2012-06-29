@@ -1,6 +1,8 @@
 #ifndef SEVENZIP_EXTRACTOR_COMMON_H_
 #define SEVENZIP_EXTRACTOR_COMMON_H_
 
+namespace ult {
+namespace sevenzip {
 // callback function
 typedef void   (__stdcall *SetTotalProc)
                           (unsigned __int64 totalsize);
@@ -61,5 +63,7 @@ namespace extract {
   };
 }
 } //namespace extractresult
+} //namespace sevenzip
+} //namespace ult
 
 #endif

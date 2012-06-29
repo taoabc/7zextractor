@@ -34,12 +34,12 @@ int _tmain(int argc, _TCHAR* argv[])
     return 1;
   }
 
-  InitProc Init = (InitProc)lib.GetProc("Init");
-  OpenProc Open = (OpenProc)lib.GetProc("Open");
-  OpenFromMemoryProc OpenFromMemory = (OpenFromMemoryProc)lib.GetProc("OpenFromMemory");
-  ExtractProc Extract = (ExtractProc)lib.GetProc("Extract");
+  ult::sevenzip::InitProc Init = (ult::sevenzip::InitProc)lib.GetProc("Init");
+  ult::sevenzip::OpenProc Open = (ult::sevenzip::OpenProc)lib.GetProc("Open");
+  ult::sevenzip::OpenFromMemoryProc OpenFromMemory = (ult::sevenzip::OpenFromMemoryProc)lib.GetProc("OpenFromMemory");
+  ult::sevenzip::ExtractProc Extract = (ult::sevenzip::ExtractProc)lib.GetProc("Extract");
 
-  if (Init(NULL) != extractresult::init::kOK) {
+  if (Init(NULL) != ult::sevenzip::extractresult::init::kOK) {
   }
   /*if (Open(L"E:\\temp\\test.7z") != extractresult::open::kOK) {
   }*/
@@ -47,10 +47,10 @@ int _tmain(int argc, _TCHAR* argv[])
   HGLOBAL hpack = ::LoadResource(NULL, hrsrc);
   LPVOID pack_data = ::LockResource(hpack);
   DWORD pack_size = ::SizeofResource(NULL, hrsrc);
-  if (OpenFromMemory((const char*)pack_data, pack_size) != extractresult::open::kOK) {
+  if (OpenFromMemory((const char*)pack_data, pack_size) != ult::sevenzip::extractresult::open::kOK) {
 
   }
-  if (Extract(L"E:\\temp\\a\\", SetTotal, SetCompleted, SetOperationResult) != extractresult::extract::kOK) {
+  if (Extract(L"E:\\temp\\a\\", SetTotal, SetCompleted, SetOperationResult) != ult::sevenzip::extractresult::extract::kOK) {
   }
   ::FreeResource(hpack);
   system("pause");

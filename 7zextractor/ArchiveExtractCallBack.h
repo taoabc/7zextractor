@@ -10,6 +10,8 @@
 
 #include <string>
 
+using namespace ult::sevenzip;
+
 class ArchiveExtractCallBack :
     public IArchiveExtractCallback,
     public ICryptoGetTextPassword,
